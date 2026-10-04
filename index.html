@@ -1,0 +1,18 @@
+<body style="margin:0;overflow:hidden">
+<canvas id="c"></canvas>
+<script>
+    const ctx = c.getContext('2d');
+    c.width = innerWidth; 
+    c.height = innerHeight;
+
+    onresize = () => {c.width = innerWidth; c.height = innerHeight;};
+    onclick = () => console.log('clicked');
+    onkeydown = () => console.log("keyDown");
+
+    let last = performance.now();
+    function loop(now) {
+        const dt = Math.min((now - last) / (1000 / 60), 3);
+    requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+</script>
