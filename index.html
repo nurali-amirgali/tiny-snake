@@ -76,6 +76,10 @@
             gameOver = true;
             return;
         }
+        if (newPos[0] < 0 || newPos[0] > numTilesX-1 || newPos[1] < 0 || newPos[1] > numTilesY-1){
+            gameOver = true;
+            return;
+        }
         snake.push(newPos);
         if (!extend){
             snake.shift();
