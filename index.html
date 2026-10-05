@@ -12,6 +12,7 @@
     var snake = [[0,0],[1,0],[2,0]];
     var apple = randomFreeTile();
     var extend = false;
+    var gameOver = false;
 
     onresize = () => {c.width = innerWidth; c.height = innerHeight;};
     onclick = () => console.log('clicked');
@@ -52,6 +53,9 @@
     requestAnimationFrame(loop);
 
     function updateSnake(){
+        if (gameOver){
+            return;
+        }
         let change = [0,0];
         if (dir == 0){
             change[0] = 1;
@@ -68,6 +72,10 @@
         actualDir = dir;
         let currentPos = snake.at(-1);
         let newPos = [currentPos[0]+change[0],currentPos[1]+change[1]];
+        if (snakeContains(newPos[0], newPos[1])){
+            gameOver = true;
+            return;
+        }
         snake.push(newPos);
         if (!extend){
             snake.shift();
