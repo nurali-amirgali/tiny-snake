@@ -47,13 +47,20 @@
                 }
                 var drawX = col * tilesize + (c.width/2) - (gridWidth/2);
                 var drawY = row * tilesize + (c.height/2) - (gridHeight/2);
-                drawRect(color, drawX, drawY, tilesize, tilesize)
+                drawRect(color, drawX, drawY, tilesize, tilesize);
             }
         }
-        ctx.fillStyle = 'black';
-        const text = String(snake.length-3);
-        const textWidth = ctx.measureText(text).width;
-        ctx.fillText(text, c.width/2 - textWidth/2, c.height/2 - 320);
+        if (!gameOver){
+            ctx.fillStyle = 'black';
+            const text = String(snake.length-3);
+            const textWidth = ctx.measureText(text).width;
+            ctx.fillText(text, c.width/2 - textWidth/2, c.height/2 - 320);
+        }else{
+            ctx.fillStyle = 'red';
+            ctx.fillText("GAME OVER", c.width * 0.3, c.height*0.35);
+            ctx.fillText("Score: " + (snake.length-3), c.width * 0.3, c.height*0.35 + 100);
+            ctx.fillText("Click to restart", c.width * 0.17, c.height*0.35 + 200);
+        }
         requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
