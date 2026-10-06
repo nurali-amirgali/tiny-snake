@@ -12,7 +12,8 @@
     var snake = [[0,0],[1,0],[2,0]];
     var apple = randomFreeTile();
     var extend = false;
-    var gameOver = false;
+    var gameOver = true;
+    var startScreen = true;
 
     ctx.font = '100px monospace';
 
@@ -55,11 +56,20 @@
             const text = String(snake.length-3);
             const textWidth = ctx.measureText(text).width;
             ctx.fillText(text, c.width/2 - textWidth/2, c.height/2 - 320);
+        }else if (!startScreen){
+            ctx.fillStyle = 'darkred';
+            ctx.fillText("GAME OVER", c.width/2 - 275, c.height/2 - 320);
+
+            const text = "Score: " + String(snake.length-3);
+            const textWidth = ctx.measureText(text).width;
+
+            ctx.fillText(text, c.width/2 - textWidth/2, c.height/2 - 90);
+            ctx.fillText("press anything", c.width/2 - 400, c.height/2 + 20);
+            ctx.fillText("to restart", c.width/2 - 300, c.height/2 + 130);
         }else{
-            ctx.fillStyle = 'red';
-            ctx.fillText("GAME OVER", c.width * 0.3, c.height*0.35);
-            ctx.fillText("Score: " + (snake.length-3), c.width * 0.3, c.height*0.35 + 100);
-            ctx.fillText("Click to restart", c.width * 0.17, c.height*0.35 + 200);
+            ctx.fillStyle = 'black';
+            ctx.fillText("press anything", c.width/2 - 430, c.height/2 - 20);
+            ctx.fillText("to start", c.width/2 - 250, c.height/2 + 90);
         }
         requestAnimationFrame(loop);
     }
@@ -139,6 +149,19 @@
         }
         if (((angle + 180) % 360) != actualDir){
             dir = angle;
+        }
+        if (startScreen){
+            startScreen = false;
+            gameOver = false;
+            dir = 0;
+            actualDir = 0;
+        }
+        if (gameOver){
+            startScreen = true;
+            snake = [[0,0],[1,0],[2,0]];
+            apple = randomFreeTile();
+            dir = 0;
+            actualDir = 0;
         }
     }
 
