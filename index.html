@@ -88,6 +88,9 @@
             var color = 'lime';
             if (i == (snake.length-1)){
                 color = 'darkgreen';
+                if (gameOver && !startScreen){
+                    color = 'red'
+                }
             }
 
             let edges = ''
@@ -143,15 +146,6 @@
         actualDir = dir;
         let currentPos = snake.at(-1);
         let newPos = [currentPos[0]+change[0],currentPos[1]+change[1]];
-        if (snakeContains(newPos[0], newPos[1])){
-            gameOver = true;
-            return;
-        }
-        if (newPos[0] < 0 || newPos[0] > numTilesX-1 || newPos[1] < 0 || newPos[1] > numTilesY-1){
-            gameOver = true;
-            return;
-        }
-        snake.push(newPos);
         if (!extend){
             snake.shift();
         }else{
@@ -161,6 +155,17 @@
             extend = true;
             apple = randomFreeTile();
         }
+        if (snakeContains(newPos[0], newPos[1])){
+            gameOver = true;
+            snake.push(newPos);
+            return;
+        }
+        if (newPos[0] < 0 || newPos[0] > numTilesX-1 || newPos[1] < 0 || newPos[1] > numTilesY-1){
+            gameOver = true;
+            snake.push(newPos);
+            return;
+        }
+        snake.push(newPos);
     }
 
     function randomFreeTile() {
