@@ -22,7 +22,7 @@
     onkeydown = keydown;
 
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
 
     setInterval(updateSnake, 200);
 
@@ -39,9 +39,50 @@
         var startX = c.width/2 - gridWidth/2;
         var startY = c.height/2 - gridHeight/2;
 
-        drawRect('grey', startX, startY, gridWidth, gridHeight);
+        drawRect('grey', startX, startY, gridWidth, gridHeight, 'rbtl');
         for (let i = 0; i < snake.length; i++){
             let pos = snake[i];
+            let lastDir = [2,2];
+            let nextDir = [2,2];
+            if (i != 0){
+                let lastPos = snake[i-1];
+                lastDir = [lastPos[0] - pos[0], lastPos[1] - pos[1]];
+            }  
+            if (i != snake.length-1){
+                let nextPos = snake[i+1]
+                nextDir = [nextPos[0] - pos[0], nextPos[1] - pos[1]];
+            }
+
+            let removeSide = '';
+            if (lastDir[0] != 2){
+                if (lastDir[0] == 0 && lastDir[1] == 1){
+                    removeSide = removeSide + 'b';
+                }
+                if (lastDir[0] == 0 && lastDir[1] == -1){
+                    removeSide = removeSide + 't';
+                }
+                if (lastDir[0] == 1 && lastDir[1] == 0){
+                    removeSide = removeSide + 'r';
+                }
+                if (lastDir[0] == -1 && lastDir[1] == 0){
+                    removeSide = removeSide + 'l';
+                }
+            }
+            if (nextDir[0] != 2){
+                if (nextDir[0] == 0 && nextDir[1] == 1){
+                    removeSide = removeSide + 'b';
+                }
+                if (nextDir[0] == 0 && nextDir[1] == -1){
+                    removeSide = removeSide + 't';
+                }
+                if (nextDir[0] == 1 && nextDir[1] == 0){
+                    removeSide = removeSide + 'r';
+                }
+                if (nextDir[0] == -1 && nextDir[1] == 0){
+                    removeSide = removeSide + 'l';
+                }
+            }
+
             let drawX = startX + (pos[0] * tilesize);
             let drawY = startY + (pos[1] * tilesize);
             var color = 'lime';
@@ -49,9 +90,10 @@
                 color = 'darkgreen';
             }
 
-            drawRect(color, drawX, drawY, tilesize, tilesize);
+            let edges = ''
+            drawRect(color, drawX, drawY, tilesize, tilesize, oppositeSides(removeSide));
         }
-        drawRect('red', startX + (apple[0] * tilesize), startY + (apple[1] * tilesize), tilesize, tilesize);
+        drawRect('red', startX + (apple[0] * tilesize), startY + (apple[1] * tilesize), tilesize, tilesize, 'tblr');
 
         if (!gameOver){
             ctx.fillStyle = 'black';
@@ -76,6 +118,10 @@
         requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
+
+    function oppositeSides(sides) {
+        return "tblr".split("").filter(side => !sides.includes(side)).join("");
+    }
 
     function updateSnake(){
         if (gameOver){
@@ -167,9 +213,27 @@
         }
     }
 
-    function drawRect(color, x, y, width, height){
+    function drawRect(color, x, y, width, height, sides="") {
         ctx.fillStyle = color;
-        ctx.fillRect(x,y,width,height);
-        //ctx.strokeRect(x,y,width,height);
+        ctx.fillRect(x, y, width, height);
+
+        ctx.beginPath();
+        if (sides.includes("t")) {
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + width, y);
+        }
+        if (sides.includes("r")) {
+            ctx.moveTo(x + width, y);
+            ctx.lineTo(x + width, y + height);
+        }
+        if (sides.includes("b")) {
+            ctx.moveTo(x + width, y + height);
+            ctx.lineTo(x, y + height);
+        }
+        if (sides.includes("l")) {
+            ctx.moveTo(x, y + height);
+            ctx.lineTo(x, y);
+        }
+        ctx.stroke();
     }
 </script>
