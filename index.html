@@ -36,21 +36,23 @@
         var gridWidth = numTilesX * tilesize;
         var gridHeight = numTilesY * tilesize;
 
-        for (let row = 0; row < numTilesY; row++) {
-            for (let col = 0; col < numTilesX; col++) {
-                var color = (snakeContains(col, row)) ? 'lime' : 'grey';
-                if (apple[0] == col && apple[1] == row){
-                    color = 'red';
-                }
-                let currentPos = snake.at(-1);
-                if (currentPos[0] == col && currentPos[1] == row){
-                    color = 'darkgreen';
-                }
-                var drawX = col * tilesize + (c.width/2) - (gridWidth/2);
-                var drawY = row * tilesize + (c.height/2) - (gridHeight/2);
-                drawRect(color, drawX, drawY, tilesize, tilesize);
+        var startX = c.width/2 - gridWidth/2;
+        var startY = c.height/2 - gridHeight/2;
+
+        drawRect('grey', startX, startY, gridWidth, gridHeight);
+        for (let i = 0; i < snake.length; i++){
+            let pos = snake[i];
+            let drawX = startX + (pos[0] * tilesize);
+            let drawY = startY + (pos[1] * tilesize);
+            var color = 'lime';
+            if (i == (snake.length-1)){
+                color = 'darkgreen';
             }
+
+            drawRect(color, drawX, drawY, tilesize, tilesize);
         }
+        drawRect('red', startX + (apple[0] * tilesize), startY + (apple[1] * tilesize), tilesize, tilesize);
+
         if (!gameOver){
             ctx.fillStyle = 'black';
             const text = String(snake.length-3);
