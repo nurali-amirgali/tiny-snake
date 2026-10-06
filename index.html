@@ -18,7 +18,6 @@
     ctx.font = '100px monospace';
 
     onresize = () => {c.width = innerWidth; c.height = innerHeight;};
-    onclick = () => console.log('clicked');
     onkeydown = keydown;
 
     ctx.strokeStyle = 'black';
@@ -208,16 +207,16 @@
     function keydown(e){
         let key = e.key
         let angle = 0
-        if (key == "a" || key == "LeftArrow"){
+        if (key == "a"){
             angle = 180;
         } 
-        if (key == "w" || key == "UpArrow"){
+        if (key == "w"){
             angle = 270
         }
-        if (key == "d" || key == "RightArrow"){
+        if (key == "d"){
             angle = 0
         }
-        if (key == "s" || key == "DownArrow"){
+        if (key == "s"){
             angle = 90
         }
         if (((angle + 180) % 360) != actualDir){
