@@ -89,12 +89,27 @@
             if (i == (snake.length-1)){
                 color = 'darkgreen';
                 if (gameOver && !startScreen){
-                    color = 'red'
+                    color = 'red';
                 }
             }
 
             let edges = ''
             drawRect(color, drawX, drawY, tilesize, tilesize, oppositeSides(removeSide));
+            if (i == (snake.length-1)){
+                if (actualDir == 0){ //right
+                    drawRect('black', drawX + 40, drawY + 10, 10, 10);
+                    drawRect('black', drawX + 40, drawY + 40, 10, 10);
+                }else if (actualDir == 90){ //down
+                    drawRect('black', drawX + 10, drawY + 40, 10, 10);
+                    drawRect('black', drawX + 40, drawY + 40, 10, 10);
+                }else if (actualDir == 180){ //left
+                    drawRect('black', drawX + 10, drawY + 10, 10, 10);
+                    drawRect('black', drawX + 10, drawY + 40, 10, 10);
+                }else if (actualDir == 270){ //up
+                    drawRect('black', drawX + 10, drawY + 10, 10, 10);
+                    drawRect('black', drawX + 40, drawY + 10, 10, 10);
+                }
+            }
         }
         drawRect('red', startX + (apple[0] * tilesize), startY + (apple[1] * tilesize), tilesize, tilesize, 'tblr');
 
