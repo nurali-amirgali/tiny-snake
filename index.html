@@ -20,17 +20,12 @@
     onresize = () => {c.width = innerWidth; c.height = innerHeight;};
     onkeydown = keydown;
 
-    ctx.strokeStyle = 'black';
     ctx.lineWidth = 3;
 
     setInterval(updateSnake, 200);
 
-    let last = performance.now();
     function loop(now) {
-        const dt = Math.min((now - last) / (1000 / 60), 3);
-        last = now;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, c.width, c.height);
+        drawRect('white', 0, 0, c.width, c.height);
 
         var gridWidth = numTilesX * tilesize;
         var gridHeight = numTilesY * tilesize;
@@ -48,7 +43,7 @@
                 lastDir = [lastPos[0] - pos[0], lastPos[1] - pos[1]];
             }  
             if (i != snake.length-1){
-                let nextPos = snake[i+1]
+                let nextPos = snake[i+1];
                 nextDir = [nextPos[0] - pos[0], nextPos[1] - pos[1]];
             }
 
@@ -202,7 +197,7 @@
 
     function randint(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;}
 
-    function snakeContains(x, y) {return snake.some(pos => pos[0] === x && pos[1] === y)}
+    function snakeContains(x, y) {return snake.some(pos => pos[0] === x && pos[1] === y);}
 
     function keydown(e){
         let key = e.key
@@ -214,10 +209,10 @@
             angle = 270
         }
         if (key == "d"){
-            angle = 0
+            angle = 0;
         }
         if (key == "s"){
-            angle = 90
+            angle = 90;
         }
         if (((angle + 180) % 360) != actualDir){
             dir = angle;
