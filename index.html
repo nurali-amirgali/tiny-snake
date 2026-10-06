@@ -161,6 +161,8 @@
         actualDir = dir;
         let currentPos = snake.at(-1);
         let newPos = [currentPos[0]+change[0],currentPos[1]+change[1]];
+
+        let ate = false;
         if (!extend){
             snake.shift();
         }else{
@@ -168,7 +170,7 @@
         }
         if (newPos[0] == apple[0] && newPos[1] == apple[1]){
             extend = true;
-            apple = randomFreeTile();
+            ate = true;
         }
         if (snakeContains(newPos[0], newPos[1])){
             gameOver = true;
@@ -181,6 +183,9 @@
             return;
         }
         snake.push(newPos);
+        if (ate) {
+            apple = randomFreeTile();
+        }
     }
 
     function randomFreeTile() {
